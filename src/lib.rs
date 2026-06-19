@@ -22,15 +22,13 @@ pub use chrono::{DateTime, Datelike, Timelike, Utc, offset::TimeZone};
 pub enum SetTimeError {
     PermissionDenied,
     InvalidTime,
-    Other(String),
 }
 
 impl std::fmt::Display for SetTimeError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            SetTimeError::PermissionDenied => write!(f, "Permission denied"),
+            SetTimeError::PermissionDenied => write!(f, "Permission denied, are you running as administrator/root?"),
             SetTimeError::InvalidTime => write!(f, "Invalid time format"),
-            SetTimeError::Other(msg) => write!(f, "{}", msg),
         }
     }
 }
@@ -93,6 +91,12 @@ fn set_time_linux<D: Datelike + Timelike>(time: D) -> Result<(), SetTimeError> {
     set_time_unix(time)
 }
 
+/// Sets the system time to the specified time.
+/// 
+/// # Errors
+/// 
+/// - `SetTimeError::PermissionDenied` if the operation fails due to insufficient permissions.
+/// - `SetTimeError::InvalidTime` if the provided time is invalid.
 pub fn set_time<D: Datelike + Timelike>(time: D) -> Result<(), SetTimeError> {
     #[cfg(target_os = "windows")]
     return set_time_windows(time);
