@@ -1,11 +1,12 @@
 [package]
 name = "set-time"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["@Exotik850"]
 description = "A Rust library for setting the system time on Windows and Unix-like systems."
 license = "MIT"
 keywords = ["time", "datetime", "windows", "unix"]
+repository = "https://github.com/exotik850/set-time"
 
 [dependencies]
 chrono = "0.4"
